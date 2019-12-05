@@ -1,23 +1,22 @@
-import { PublicService } from '@makerdao/services-core';
-import assert from 'assert';
-import { netIdtoSpockUrl } from './utils/helpers';
+import { PublicService } from "@makerdao/services-core";
+import assert from "assert";
+import { netIdtoSpockUrl, netIdtoSpockUrlStaging } from "./utils/helpers";
 
 export default class QueryApi extends PublicService {
-  constructor(name = 'govQueryApi') {
-    super(name, ['web3']);
+  constructor(name = "govQueryApi") {
+    super(name, ["web3"]);
     this.queryPromises = {};
+    this.staging = false;
   }
 
   async getQueryResponse(serverUrl, query) {
     const resp = await fetch(serverUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        query
-      })
+      body: JSON.stringify({ query })
     });
     const { data } = await resp.json();
     assert(data, `error fetching data from ${serverUrl}`);
@@ -31,9 +30,17 @@ export default class QueryApi extends PublicService {
     return this.queryPromises[cacheKey];
   }
 
+  initialize(settings) {
+    if (settings.staging) {
+      this.staging = true;
+    }
+  }
+
   connect() {
-    const network = this.get('web3').network;
-    this.serverUrl = netIdtoSpockUrl(network);
+    const network = this.get("web3").network;
+    this.serverUrl = this.staging
+      ? netIdtoSpockUrlStaging(network)
+      : netIdtoSpockUrl(network);
   }
 
   async getAllWhitelistedPolls() {
@@ -113,9 +120,9 @@ export default class QueryApi extends PublicService {
   }
   }`;
     const response = await this.getQueryResponseMemoized(this.serverUrl, query);
-    const weights = response.voteOptionMkrWeights.nodes;
+    let weights = response.voteOptionMkrWeights.nodes;
     // We don't want to calculate votes for 0:abstain
-    if (weights[0] && weights[0].optionId === 0) weights.shift();
+    weights = weights.filter(o => o.optionId !== 0);
     const totalWeight = weights.reduce((acc, cur) => {
       const mkrSupport = isNaN(parseFloat(cur.mkrSupport))
         ? 0

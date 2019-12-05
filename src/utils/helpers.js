@@ -1,5 +1,12 @@
-import { createGetCurrency } from '@makerdao/currency';
-import { MKR, LOCAL_URL, STAGING_URL, PROD_URL } from './constants';
+import { createGetCurrency } from "@makerdao/currency";
+
+import {
+  KOVAN_URL,
+  LOCAL_URL,
+  MAINNET_URL,
+  MKR,
+  STAGING_MAINNET_URL
+} from "./constants";
 
 /**
  * @desc get network name
@@ -9,22 +16,33 @@ import { MKR, LOCAL_URL, STAGING_URL, PROD_URL } from './constants';
 export const netIdToName = id => {
   switch (parseInt(id, 10)) {
     case 1:
-      return 'mainnet';
+      return "mainnet";
     case 42:
-      return 'kovan';
+      return "kovan";
     case 999:
-      return 'ganache';
+      return "ganache";
     default:
-      return '';
+      return "";
   }
 };
 
 export const netIdtoSpockUrl = id => {
   switch (parseInt(id, 10)) {
     case 1:
-      return PROD_URL;
+      return MAINNET_URL;
     case 42:
-      return STAGING_URL;
+      return KOVAN_URL;
+    default:
+      return LOCAL_URL;
+  }
+};
+
+export const netIdtoSpockUrlStaging = id => {
+  switch (parseInt(id, 10)) {
+    case 1:
+      return STAGING_MAINNET_URL;
+    case 42:
+      return KOVAN_URL;
     default:
       return LOCAL_URL;
   }

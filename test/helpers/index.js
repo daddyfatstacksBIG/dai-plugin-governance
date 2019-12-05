@@ -1,15 +1,19 @@
-import fetch from 'node-fetch';
-import Maker from '@makerdao/dai';
-import govPlugin from '../../src/index';
-import configPlugin from '@makerdao/dai-plugin-config';
-import { createCurrency } from '@makerdao/currency';
+import { createCurrency } from "@makerdao/currency";
+import Maker from "@makerdao/dai";
+import configPlugin from "@makerdao/dai-plugin-config";
+import fetch from "node-fetch";
 
-const MKR = createCurrency('MKR');
+import govPlugin from "../../src/index";
 
-// Until we have better event listeners from the server, we'll have to fake it with sleep
+const MKR = createCurrency("MKR");
+
+// Until we have better event listeners from the server, we'll have to fake it
+// with sleep
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-/** Feature Flag: remove this block when transition to ex_testchain is complete: */
+/**
+ * Feature Flag: remove this block when transition to ex_testchain is complete:
+ */
 function ganacheAddress() {
   const port = process.env.GOV_TESTNET_PORT || 2000;
   return `http://localhost:${port}`;
@@ -18,71 +22,71 @@ function ganacheAddress() {
 export async function takeSnapshotOriginal() {
   try {
     const res = await fetch(ganacheAddress(), {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'evm_snapshot',
+        jsonrpc: "2.0",
+        method: "evm_snapshot",
         params: []
       })
     });
 
     const json = await res.json();
-    return parseInt(json['result'], 16);
+    return parseInt(json["result"], 16);
   } catch (err) {
-    console.error('Request failed with:', err);
+    console.error("Request failed with:", err);
   }
 }
 
 export async function restoreSnapshotOriginal(snapId) {
   try {
     const res = await fetch(ganacheAddress(), {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'evm_revert',
+        jsonrpc: "2.0",
+        method: "evm_revert",
         params: [snapId]
       })
     });
 
     const json = await res.json();
-    return json['result'];
+    return json["result"];
   } catch (err) {
-    console.error('Request failed with:', err);
+    console.error("Request failed with:", err);
   }
 }
 
 export const setupMakerOld = async () => {
-  console.warn('Not using ex_testchain.');
+  console.warn("Not using ex_testchain.");
   const accounts = {
     owner: {
-      type: 'privateKey',
-      key: '0x474beb999fed1b3af2ea048f963833c686a0fba05f5724cb6417cf3b8ee9697e'
+      type: "privateKey",
+      key: "0x474beb999fed1b3af2ea048f963833c686a0fba05f5724cb6417cf3b8ee9697e"
     },
     ali: {
-      type: 'privateKey',
-      key: '0xbc838ab7af00cda00cb02efbbe4dbb1ce51f5d2613acfe11bd970ce659ad8704'
+      type: "privateKey",
+      key: "0xbc838ab7af00cda00cb02efbbe4dbb1ce51f5d2613acfe11bd970ce659ad8704"
     },
     sam: {
-      type: 'privateKey',
-      key: '0xb3ae65f191aac33f3e3f662b8411cabf14f91f2b48cf338151d6021ea1c08541'
+      type: "privateKey",
+      key: "0xb3ae65f191aac33f3e3f662b8411cabf14f91f2b48cf338151d6021ea1c08541"
     },
     ava: {
-      type: 'privateKey',
-      key: '0xa052332a502d9a91636931be4ffd6e1468684544a1a7bc4a64c21c6f5daa759a'
+      type: "privateKey",
+      key: "0xa052332a502d9a91636931be4ffd6e1468684544a1a7bc4a64c21c6f5daa759a"
     }
   };
 
-  const maker = await Maker.create('http', {
-    plugins: [[govPlugin, { network: 'ganache' }]],
-    url: 'http://localhost:2000',
+  const maker = await Maker.create("http", {
+    plugins: [[govPlugin, { network: "ganache" }]],
+    url: "http://localhost:2000",
     accounts
   });
   await maker.authenticate();
@@ -104,16 +108,13 @@ const fetchAccounts = async () => {
   );
 
   // Set some account names for easy reference
-  const accounts = ['ali', 'sam', 'ava'].reduce((result, name, i) => {
-    result[name] = {
-      type: 'privateKey',
-      key: otherAccounts[i].priv_key
-    };
+  const accounts = ["ali", "sam", "ava"].reduce((result, name, i) => {
+    result[name] = { type: "privateKey", key: otherAccounts[i].priv_key };
     return result;
   }, {});
 
   // Add the coinbase account back to the accounts
-  accounts.owner = { type: 'privateKey', key: coinbaseAccount.priv_key };
+  accounts.owner = { type: "privateKey", key: coinbaseAccount.priv_key };
 
   return accounts;
 };
@@ -121,7 +122,7 @@ const fetchAccounts = async () => {
 export const takeSnapshot = async (testchainId, client, name) => {
   await client.takeSnapshot(testchainId, name);
   await sleep(7000);
-  const snapshots = await client.api.listAllSnapshots('ganache');
+  const snapshots = await client.api.listAllSnapshots("ganache");
   const mySnap = snapshots.data.filter(x => x.description === name);
 
   return mySnap[0].id;
@@ -144,9 +145,9 @@ export const setupTestMakerInstance = async () => {
   if (global.useOldChain) return setupMakerOld();
 
   const accounts = await fetchAccounts();
-  const maker = await Maker.create('http', {
+  const maker = await Maker.create("http", {
     plugins: [
-      [govPlugin, { network: 'ganache' }],
+      [govPlugin, { network: "ganache" }],
       [
         configPlugin,
         { testchainId: global.testchainId, backendEnv: global.backendEnv }
@@ -165,12 +166,12 @@ export const linkAccounts = async (maker, initiator, approver) => {
   const lad = maker.currentAccount().name;
   // initiator wants to create a link with approver
   maker.useAccountWithAddress(initiator);
-  const vpsFactory = maker.service('voteProxyFactory');
+  const vpsFactory = maker.service("voteProxyFactory");
   await vpsFactory.initiateLink(approver);
 
   // approver confirms it
   maker.useAccountWithAddress(approver);
-  await maker.service('voteProxyFactory').approveLink(initiator);
+  await maker.service("voteProxyFactory").approveLink(initiator);
 
   // no other side effects
   maker.useAccount(lad);
@@ -199,3 +200,5 @@ export const setUpAllowance = async (maker, address) => {
 
   maker.useAccount(lad);
 };
+
+export const addressRegex = /^0x[a-fA-F0-9]{40}$/;
