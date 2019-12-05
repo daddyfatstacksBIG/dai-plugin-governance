@@ -3,7 +3,13 @@
     "constant": true,
     "inputs": [],
     "name": "debt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -11,8 +17,16 @@
   {
     "constant": false,
     "inputs": [
-      { "internalType": "bytes32", "name": "what", "type": "bytes32" },
-      { "internalType": "uint256", "name": "data", "type": "uint256" }
+      {
+        "internalType": "bytes32",
+        "name": "what",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "data",
+        "type": "uint256"
+      }
     ],
     "name": "file",
     "outputs": [],
@@ -25,7 +39,11 @@
     "inputs": [],
     "name": "vat",
     "outputs": [
-      { "internalType": "contract VatLike", "name": "", "type": "address" }
+      {
+        "internalType": "contract VatLike",
+        "name": "",
+        "type": "address"
+      }
     ],
     "payable": false,
     "stateMutability": "view",
@@ -33,7 +51,13 @@
   },
   {
     "constant": false,
-    "inputs": [{ "internalType": "bytes32", "name": "ilk", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "ilk",
+        "type": "bytes32"
+      }
+    ],
     "name": "flow",
     "outputs": [],
     "payable": false,
@@ -45,7 +69,11 @@
     "inputs": [],
     "name": "pot",
     "outputs": [
-      { "internalType": "contract PotLike", "name": "", "type": "address" }
+      {
+        "internalType": "contract PotLike",
+        "name": "",
+        "type": "address"
+      }
     ],
     "payable": false,
     "stateMutability": "view",
@@ -54,8 +82,16 @@
   {
     "constant": false,
     "inputs": [
-      { "internalType": "bytes32", "name": "ilk", "type": "bytes32" },
-      { "internalType": "uint256", "name": "id", "type": "uint256" }
+      {
+        "internalType": "bytes32",
+        "name": "ilk",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
     ],
     "name": "skip",
     "outputs": [],
@@ -77,7 +113,11 @@
     "inputs": [],
     "name": "vow",
     "outputs": [
-      { "internalType": "contract VowLike", "name": "", "type": "address" }
+      {
+        "internalType": "contract VowLike",
+        "name": "",
+        "type": "address"
+      }
     ],
     "payable": false,
     "stateMutability": "view",
@@ -85,9 +125,21 @@
   },
   {
     "constant": true,
-    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "name": "fix",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -96,14 +148,26 @@
     "constant": true,
     "inputs": [],
     "name": "wait",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
     "constant": false,
-    "inputs": [{ "internalType": "address", "name": "guy", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "guy",
+        "type": "address"
+      }
+    ],
     "name": "rely",
     "outputs": [],
     "payable": false,
@@ -121,7 +185,13 @@
   },
   {
     "constant": false,
-    "inputs": [{ "internalType": "uint256", "name": "wad", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wad",
+        "type": "uint256"
+      }
+    ],
     "name": "pack",
     "outputs": [],
     "payable": false,
@@ -133,7 +203,11 @@
     "inputs": [],
     "name": "spot",
     "outputs": [
-      { "internalType": "contract Spotty", "name": "", "type": "address" }
+      {
+        "internalType": "contract Spotty",
+        "name": "",
+        "type": "address"
+      }
     ],
     "payable": false,
     "stateMutability": "view",
@@ -142,8 +216,16 @@
   {
     "constant": false,
     "inputs": [
-      { "internalType": "bytes32", "name": "ilk", "type": "bytes32" },
-      { "internalType": "address", "name": "urn", "type": "address" }
+      {
+        "internalType": "bytes32",
+        "name": "ilk",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "urn",
+        "type": "address"
+      }
     ],
     "name": "skim",
     "outputs": [],
@@ -153,9 +235,21 @@
   },
   {
     "constant": true,
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "name": "bag",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -164,14 +258,26 @@
     "constant": true,
     "inputs": [],
     "name": "live",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
     "constant": false,
-    "inputs": [{ "internalType": "address", "name": "guy", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "guy",
+        "type": "address"
+      }
+    ],
     "name": "deny",
     "outputs": [],
     "payable": false,
@@ -180,16 +286,34 @@
   },
   {
     "constant": true,
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "name": "wards",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
     "constant": false,
-    "inputs": [{ "internalType": "bytes32", "name": "ilk", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "ilk",
+        "type": "bytes32"
+      }
+    ],
     "name": "free",
     "outputs": [],
     "payable": false,
@@ -199,11 +323,25 @@
   {
     "constant": true,
     "inputs": [
-      { "internalType": "bytes32", "name": "", "type": "bytes32" },
-      { "internalType": "address", "name": "", "type": "address" }
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
     "name": "out",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -211,8 +349,16 @@
   {
     "constant": false,
     "inputs": [
-      { "internalType": "bytes32", "name": "what", "type": "bytes32" },
-      { "internalType": "address", "name": "data", "type": "address" }
+      {
+        "internalType": "bytes32",
+        "name": "what",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "data",
+        "type": "address"
+      }
     ],
     "name": "file",
     "outputs": [],
@@ -222,16 +368,34 @@
   },
   {
     "constant": true,
-    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "name": "Art",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
     "constant": false,
-    "inputs": [{ "internalType": "bytes32", "name": "ilk", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "ilk",
+        "type": "bytes32"
+      }
+    ],
     "name": "cage",
     "outputs": [],
     "payable": false,
@@ -242,7 +406,13 @@
     "constant": true,
     "inputs": [],
     "name": "when",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -252,7 +422,11 @@
     "inputs": [],
     "name": "cat",
     "outputs": [
-      { "internalType": "contract CatLike", "name": "", "type": "address" }
+      {
+        "internalType": "contract CatLike",
+        "name": "",
+        "type": "address"
+      }
     ],
     "payable": false,
     "stateMutability": "view",
@@ -260,18 +434,42 @@
   },
   {
     "constant": true,
-    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "name": "gap",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
   },
   {
     "constant": true,
-    "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
     "name": "tag",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -279,8 +477,16 @@
   {
     "constant": false,
     "inputs": [
-      { "internalType": "bytes32", "name": "ilk", "type": "bytes32" },
-      { "internalType": "uint256", "name": "wad", "type": "uint256" }
+      {
+        "internalType": "bytes32",
+        "name": "ilk",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "wad",
+        "type": "uint256"
+      }
     ],
     "name": "cash",
     "outputs": [],
