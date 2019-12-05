@@ -3,13 +3,14 @@
 # stop the script if anything fails
 set -e
 
-START_TIME=`date +%s`
-CWD=`dirname "$0"`
+START_TIME=$(date +%s)
+CWD=$(dirname "$0")
 PORT=${GOV_TESTNET_PORT:-2000}
 
 ./node_modules/.bin/ganache-cli -i 999 -p "$PORT" -a 1000 \
   -m "hill law jazz limb penalty escape public dish stand bracket blue jar" \
-  > ./ganache.out & netpid=$!
+  >./ganache.out &
+netpid=$!
 trap "kill $netpid" EXIT
 
 # Wait until it's up, then use it for the deployment.
@@ -41,13 +42,13 @@ seth send "$IOU" 'setOwner(address)' "$CHIEF"
 seth send "$GOV" 'mint(uint256)' "$(seth --to-uint256 "$(seth --to-wei 100000 eth)")"
 cd -
 
-cd  "$CWD"/src/vote-proxy
+cd "$CWD"/src/vote-proxy
 dapp update
 dapp --use solc:0.5.0 build --extract
 VOTE_PROXY_FACTORY=$(dapp create VoteProxyFactory "$CHIEF")
 cd -
 
-cd  "$CWD"/src/symbolic-voting
+cd "$CWD"/src/symbolic-voting
 dapp update
 dapp --use solc:0.5.0 build --extract
 POLLING=$(dapp create PollingEmitter)
@@ -59,16 +60,16 @@ dapp --use solc:0.5.11 build --extract
 MCD_END=$(dapp create End)
 cd -
 
-cd  "$CWD"/src/esm
+cd "$CWD"/src/esm
 dapp update
 dapp --use solc:0.5.6 build --extract
 PIT="0x0000000000000000000000000000000000000000"
 MIN=$(seth --to-uint256 "$(seth --to-wei 50000 eth)")
-MCD_ESM=$(dapp create ESM "$GOV" "$MCD_END" "$PIT" "$MIN");
+MCD_ESM=$(dapp create ESM "$GOV" "$MCD_END" "$PIT" "$MIN")
 cd -
 
 # Save the contract addresses to a JSON file
-cat > "$CWD"/../contracts/addresses/testnet.json <<- EOM
+cat >"$CWD"/../contracts/addresses/testnet.json <<-EOM
 {
   "GOV": "$GOV",
   "IOU": "$IOU",
@@ -80,16 +81,16 @@ cat > "$CWD"/../contracts/addresses/testnet.json <<- EOM
 }
 EOM
 
-END_TIME=`date +%s`
-ELAPSED=`echo "$END_TIME" - "$START_TIME" | bc`
+END_TIME=$(date +%s)
+ELAPSED=$(echo "$END_TIME" - "$START_TIME" | bc)
 echo "Created testnet in" "$ELAPSED" "seconds."
 
 if [[ "$1" != '--ci' ]]; then
   echo "Press Ctrl-C to kill the testnet"
-      while [ "$key" != "\n" ]; do
-  read
+  while [ "$key" != "\n" ]; do
+    read
   done
 else
-    # Proceed to the command given as arguments (but first strip --ci).
-    "$(echo "$@" | sed 's/^\-\-ci //')"
+  # Proceed to the command given as arguments (but first strip --ci).
+  "$(echo "$@" | sed 's/^\-\-ci //')"
 fi
