@@ -1,5 +1,5 @@
-import GovPollingService from '../src/GovPollingService';
-import {MKR} from '../src/utils/constants';
+import GovPollingService from "../src/GovPollingService";
+import { MKR } from "../src/utils/constants";
 
 import {
   dummyAllPollsData,
@@ -8,12 +8,12 @@ import {
   dummyNumUnique,
   dummyOption,
   dummyWeight
-} from './fixtures';
+} from "./fixtures";
 import {
   restoreSnapshotOriginal,
   setupTestMakerInstance,
   sleep
-} from './helpers';
+} from "./helpers";
 
 let maker, govPollingService, govQueryApiService;
 
@@ -21,10 +21,10 @@ jest.setTimeout(60000);
 
 beforeAll(async () => {
   maker = await setupTestMakerInstance();
-  govPollingService = maker.service('govPolling');
-  govQueryApiService = maker.service('govQueryApi');
+  govPollingService = maker.service("govPolling");
+  govQueryApiService = maker.service("govQueryApi");
 
-  maker.useAccount('owner');
+  maker.useAccount("owner");
 });
 
 afterAll(async done => {
@@ -40,24 +40,33 @@ afterAll(async done => {
   }
 });
 
-test('can create Gov Polling Service',
-     () => { expect(govPollingService).toBeInstanceOf(GovPollingService); });
+test("can create Gov Polling Service", () => {
+  expect(govPollingService).toBeInstanceOf(GovPollingService);
+});
 
-test('can create poll', async () => {
+test("can create poll", async () => {
   const START_DATE = Math.floor(new Date().getTime() / 1000) + 100;
   const END_DATE = START_DATE + 5000;
-  const MULTI_HASH = 'dummy hash';
-  const URL = 'dummy url';
-  const firstPollId =
-      await govPollingService.createPoll(START_DATE, END_DATE, MULTI_HASH, URL);
+  const MULTI_HASH = "dummy hash";
+  const URL = "dummy url";
+  const firstPollId = await govPollingService.createPoll(
+    START_DATE,
+    END_DATE,
+    MULTI_HASH,
+    URL
+  );
   expect(firstPollId).not.toBeNaN();
 
-  const secondPollId =
-      await govPollingService.createPoll(START_DATE, END_DATE, MULTI_HASH, URL);
+  const secondPollId = await govPollingService.createPoll(
+    START_DATE,
+    END_DATE,
+    MULTI_HASH,
+    URL
+  );
   expect(secondPollId).toBe(firstPollId + 1);
 });
 
-test('can vote', async () => {
+test("can vote", async () => {
   const OPTION_ID = 3;
   const txo = await govPollingService.vote(0, OPTION_ID);
   const loggedOptionId = parseInt(txo.receipt.logs[0].topics[3]);
@@ -65,19 +74,19 @@ test('can vote', async () => {
   expect(loggedOptionId).toBe(OPTION_ID);
 });
 
-test('can withdraw poll', async () => {
+test("can withdraw poll", async () => {
   const POLL_ID = 0;
   const txo = await govPollingService.withdrawPoll(POLL_ID);
   // slice off the zeros used to pad the address to 32 bytes
   const loggedCaller = txo.receipt.logs[0].topics[1].slice(26);
-  const {address : activeAddress} = maker.currentAccount();
+  const { address: activeAddress } = maker.currentAccount();
   // this will fail if the event was not emitted
   expect(loggedCaller).toBe(activeAddress.slice(2));
 });
 
 //--- caching tests
 
-test('getAllWhitelistedPolls', async () => {
+test("getAllWhitelistedPolls", async () => {
   const mockFn = jest.fn(async () => dummyAllPollsData);
   govQueryApiService.getAllWhitelistedPolls = mockFn;
   const polls = await govPollingService.getAllWhitelistedPolls();
@@ -85,7 +94,7 @@ test('getAllWhitelistedPolls', async () => {
   expect(polls).toEqual(dummyAllPollsData);
 });
 
-test('getMkrAmtVoted', async () => {
+test("getMkrAmtVoted", async () => {
   const mockFn = jest.fn(async () => dummyMkrSupportData);
   govQueryApiService.getMkrSupport = mockFn;
   govQueryApiService.getBlockNumber = jest.fn();
@@ -94,15 +103,15 @@ test('getMkrAmtVoted', async () => {
   expect(total).toEqual(MKR(40000));
 });
 
-test('getOptionVotingFor', async () => {
+test("getOptionVotingFor", async () => {
   const mockFn = jest.fn(async () => dummyOption);
   govQueryApiService.getOptionVotingFor = mockFn;
-  const option = await govPollingService.getOptionVotingFor('0xaddress', 1);
+  const option = await govPollingService.getOptionVotingFor("0xaddress", 1);
   expect(mockFn).toBeCalled();
   expect(option).toEqual(dummyOption);
 });
 
-test('getNumUniqueVoters', async () => {
+test("getNumUniqueVoters", async () => {
   const mockFn = jest.fn(async () => dummyNumUnique);
   govQueryApiService.getNumUniqueVoters = mockFn;
   const option = await govPollingService.getNumUniqueVoters(1);
@@ -110,15 +119,15 @@ test('getNumUniqueVoters', async () => {
   expect(option).toEqual(dummyNumUnique);
 });
 
-test('getMkrWeight', async () => {
+test("getMkrWeight", async () => {
   const mockFn = jest.fn(async () => dummyWeight);
   govQueryApiService.getMkrWeight = mockFn;
-  const option = await govPollingService.getMkrWeight('0xaddress');
+  const option = await govPollingService.getMkrWeight("0xaddress");
   expect(mockFn).toBeCalled();
   expect(option).toEqual(MKR(dummyWeight));
 });
 
-test('getWinningProposal', async () => {
+test("getWinningProposal", async () => {
   const mockFn = jest.fn(async () => dummyMkrSupportData);
   govQueryApiService.getMkrSupport = mockFn;
   const option = await govPollingService.getWinningProposal(1);
@@ -126,7 +135,7 @@ test('getWinningProposal', async () => {
   expect(option).toBe(2);
 });
 
-test('getVoteHistory', async () => {
+test("getVoteHistory", async () => {
   // clear polls cache
   govPollingService.refresh();
   const mockFn1 = jest.fn(async () => dummyAllPollsData);
@@ -142,7 +151,7 @@ test('getVoteHistory', async () => {
   expect(history[0].options).toBe(dummyMkrSupportData);
 });
 
-test('getPercentageMkrVoted', async () => {
+test("getPercentageMkrVoted", async () => {
   const mockFn = jest.fn(async () => dummyMkrSupportData);
   govQueryApiService.getMkrSupport = mockFn;
   const percentage = await govPollingService.getPercentageMkrVoted(1);
